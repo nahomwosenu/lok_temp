@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="static/images/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/baseStyle.css">
+  <link rel="stylesheet" href="static/css/public.css">
+  <link rel="stylesheet" href="static/assets/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="static/assets/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="static/js/jquery.js"></script>
+  <title>LokDon$</title>
+  <style>
+    .dropdown-menu {
+      margin-left: -20px;
+    }
+
+    body,
+    html,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    input {
+      font-family: 'PT Sans', sans-serif !important;
+    }
+  </style>
+
+  <script>
+    var sudden_change_happened = false;
+
+    $(document).ready(function() {
+      $(".navbar-toggle").on("click", function(event) {
+        event.preventDefault();
+        $($(this).attr("data-target")).fadeToggle("slow");
+      });
+
+      $("input[type='submit'], button[type='submit']").each(function() {
+        $(this).on("click", function(event) {
+          sudden_change(event);
+
+          if (sudden_change_happened == false) {
+            var encrypted = is_encrypted();
+            if (encrypted == false) {
+              event.preventDefault();
+              alert("This form is not encrypted");
+            }
+          }
+
+          sudden_change_happened = false;
+        });
+      });
+    });
+
+    function sudden_change(event) {
+      var obj = $("input, select, textarea").not(":input[type=submit], :input[type=button]");
+      $(obj).on("change", function() {
+        sudden_change_happened = true;
+        var encrypted = is_encrypted();
+        if (encrypted == false) {
+          event.preventDefault();
+          alert("This form is not encrypted");
+        }
+      });
+    }
+
+    function is_encrypted() {
+      var char_count = 0;
+      var total_string_count = 0;
+
+      if ($("input, select, textarea").not(":input[type=submit], :input[type=button]").length > 0) {
+        $("input, select, textarea").not(":input[type=submit], :input[type=button]").each(function() {
+          var value = $.trim($(this).val());
+          var lokdon = $(this).attr("data-lokdon");
+
+          if (value.length > 0 && lokdon == undefined) {
+            var val_arr = value.split('');
+            if (val_arr.length > 0) {
+              for (var i = 0; i < val_arr.length; i++) {
+                total_string_count++;
+                var csc = !val_arr[i].match(/[a-zA-Z0-9]/);
+                if (csc == true) {
+                  char_count++;
+                }
+              }
+            }
+          } else {
+            char_count += value.length;
+          }
+        });
+
+        var difference = total_string_count - char_count;
+
+        if ((total_string_count >= 40 && difference <= 14) || (total_string_count < 40 && difference <= 10)) {
+          return true;
+        }
+
+        return false;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div class="menulayer">
+    <div class="first-layer-top">
+      <div class="content-holder">
+        <h4 class="right color-white">
+          <ul class="right nostyle">
+            <li class="left">
+              <a target="_blank" href="https://www.facebook.com/lokchain.lokchain.3">
+                <span class="fa fa-facebook-square color-white"></span>
+              </a>
+            </li>
+            <li class="left">
+              <a target="_blank" href="https://twitter.com/lokdonllc">
+                <span class="fa fa-twitter color-white"></span>
+              </a>
+            </li>
+            <li class="left">
+              <a target="_blank" href="https://www.instagram.com/lokchain/">
+                <span class="fa fa-instagram color-white"></span>
+              </a>
+            </li>
+            <li class="left">
+              <a target="_blank" href="https://www.linkedin.com/in/lokdonlokchainofficial/">
+                <span class="fa fa-linkedin color-white"></span>
+              </a>
+            </li>
+          </ul>
+        </h4>
+        <div class="clear-both"></div>
+      </div>
+    </div>
+
+    <div class="second-layer-top">
+      <div style="width: 30%;" class="left">
+        <center>
+          <a href="#">
+            <img src="static/images/logo.png" class="logoHolder">
+          </a>
+        </center>
+      </div>
+
+      <div style="width: 67%;" class="right mainMenu">
+        <button type="button" class="navbar-toggle" data-target="#myNavbar">
+          <span class="fa fa-align-justify"></span>
+        </button>
+        <div class="mobile-hide navbar-collapse-menu" id="myNavbar">
+          <ul class="nostyle noSpace menu-collapse">
+            <li class="left">
+              <a href='index-2.html' class="header-menu home">Home</a>
+            </li>
+            <li class="left">
+              <a href='products/index.html' class="product header-menu">Product</a>
+            </li>
+            <li class="left">
+              <a href='download.html' class="header-menu download">Download</a>
+            </li>
+            <li class="left">
+              <a href='documentation.html' class="header-menu documentation">Documentation</a>
+            </li>
+            <li class="left">
+              <a href='career.html' class="header-menu career">Career</a>
+            </li>
+            <li class="left">
+              <a href='legal.html' class="header-menu legal">Legal</a>
+            </li>
+            <li class="left">
+              <a href='industries.html' class="header-menu industries">Industries</a>
+            </li>
+            <li class="left">
+              <a href='blog.html' class="header-menu blog">Blog</a>
+            </li>
+            <li class="left dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">My Account
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="signin" href='login.html'>Sign In</a></li>
+                <li><a href='signup.html'>Sign Up</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <style>
+    .home {
+      background-color: #e13500;
+      color: white !important;
+    }
+
+    @media only screen and (max-width: 900px) {
+      .storageContent {
+        width: 100% !important;
+      }
+
+      .iconHolder {
+        width: 85% !important;
+      }
+    }
+  </style>
+
+  <script>
+    $(document).ready(function() {
+      var numberOfTes = $(".testimonyHolder").length;
+      var currentIndex = 0;
+      $(".avatarForward").on("click", function(event) {
+        event.preventDefault();
+        if (currentIndex <= numberOfTes - 1) {
+
+        }
+      });
+    });
+  </script>
+
+  <style>
+    @media only screen and (max-width: 900px) {
+      .middle-text {
+        font-size: 16px !important;
+      }
+
+      .lokdon-app-btn {
+        font-size: 15px !important;
+        position: relative;
+        top: 10px;
+      }
+
+      .kickstarter {
+        font-size: 15px !important;
+      }
+    }
+  </style>
+
+
+
+  <section>
+<h1 class="color-orange" style="font-weight:bold;text-align:center">LokDon Android Library</h1><h4 style="font-weight:bold;text-align:center">Thank you for purchasing our Android Library.</h4><br><br><div class="row"><div class="col-md-7"><h2>License Details</h2><ul><li style="line-height:1.5em;" class="paraSize"><strong>License Key:</strong>LOK293471609394847##457052271##1609394847 </li><li style="line-height:1.5em;" class="paraSize"><strong>Quota: </strong> 5 devices </li><li style="line-height:1.5em;" class="paraSize"><strong>Lease:</strong> 1 Month </li><li style="line-height:1.5em;" class="paraSize"><strong>Next Billing on:</strong> 2021-01-30 </li></ul><a href="#" onclick="print();" class="btn btn-primary">Print/Download PDF</a></div><div class="col-md-4"><h2>Build Instructions</h2><h3>1. Include the lokdon library in gradle build configuration (build.gradle)</h3><code>             implementation 'com.lokdonencryption.lokdonencryptionmodule:lokdonencrypt:0.0.1' </code><h3>2. Activate the library with your license key </h3><code><pre>                import com.lokdonencryption.lokdonencrypt.Lokdon;
+
+                class YourMainActivity{
+
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        try{
+                            Lokdon lokdonInstance = new Lokdon(this,"YOUR_LICENSE_KEY");
+                        }catch(Exception e){
+                            Log.e("lokdon","this means your license key is invalid or expired",e);
+                        }
+                    }
+                }
+            </pre></code><h3>3. You can now use the available lokdon security functions, <br>example: </h3><code><pre>
+String encrypted = lokdonInstance.encrypt(YOUR_INPUT);
+String decrypted = lokdonInstance.decrypt(encrypted);</pre></code></div></div></div> <br><br><br>  
+  </section>
+
+
+  <link rel="stylesheet" href="static/assets/slick-1.8.1/slick/slick.css" />
+  <link rel="stylesheet" href="static/assets/slick-1.8.1/slick/slick-theme.css" />
+
+  <style>
+    .brand-partners {
+      max-width: 300px;
+      height: 100px;
+      margin-right: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      padding: 10px;
+    }
+  </style>
+
+
+
+  <footer class="footer">
+    <br>
+    <div class="footer-content" style="font-size: 14px">
+      <div class="row">
+        <div class="col-md-5 col-xm-12">
+          <h2 class="color-white">About LokDon</h2>
+          <div class="footer-text color-white">
+            <p style='color: white;'>LokDon is a trademark and a business name for LokDon, LLC. We are a cyber security and software development company focusing on internet and cloud security by using encryption technology to build the future
+              cryptographic systems for developers and software development companies. As a South Carolinian, USA legal entity we are proud to be in a situation to solve some of the impending problems of the digital era.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h2 class="color-white">Features </h2>
+          <ul>
+            <li>
+              <a class="footer-text" style='color: white;' href="#">Decentralization is the forte as in removing PKI</a>
+            </li>
+            <li>
+              <a class="footer-text" style='color: white;' href="#">Encryption/decription of all data</a>
+            </li>
+            <li>
+              <a class="footer-text" href="#" style='color: white;'>Free and friendly</a>
+            </li>
+            <li>
+              <a class="footer-text" href="#" style='color: white;'>General use and in-depth integration</a>
+            </li>
+            <li>
+              <a class="footer-text" href style='color: white;'>Knits defensive layers into data distribution by creating uniqueness of data</a>
+            </li>
+            <li>
+              <a class="footer-text" href="#" style='color: white;'>Hide and sieve</a>
+            </li>
+            <li>
+              <a class="footer-text" href="#" style='color: white;'>Indefatigable and flexible</a>
+            </li>
+            <li>
+              <a class="footer-text" href="#" style='color: white;'>Joining a single cloud for multiple users</a>
+            </li>
+            <li>
+              <p class="footer-text" style='color: white;'><a href='legal.html'>Terms and Conditions</a></p>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h2 class="color-white">Contact Us</h2>
+
+          <b class="color-white" style="display:block;">Address</b>
+          <span class="footer-text" style='color: white;'>1225 Laurel Street Columbia, SC 29201</span>
+
+          <b class="color-white" style="display:block;margin-top:10px;">Email</b>
+          <p class="footer-text noSpace" style='color: white;'><b>Primary:</b> <a style='color:inherit;' href='mailto: info@lokdon.com'>info@lokdon.com</p>
+
+          <b class="color-white" style="display:block;margin-top:10px;">Phone</b>
+          <span class="footer-text" style='color: white;'>+1 (763)-291-6314</span>
+        </div>
+
+      </div>
+    </div>
+
+    <br>
+
+    <hr style="border-color:#59595b;">
+
+    <ul class="left nostyle">
+      <li class="left">
+        <a target="_blank" href="https://www.facebook.com/lokchain.lokchain.3">
+          <span class="fa fa-facebook-square color-white"></span>
+        </a>
+      </li>
+      <li class="left">
+        <a target="_blank" href="https://twitter.com/lokdonllc">
+          <span class="fa fa-twitter color-white"></span>
+        </a>
+      </li>
+      <li class="left">
+        <a target="_blank" href="https://www.instagram.com/lokchain/">
+          <span class="fa fa-instagram color-white"></span>
+        </a>
+      </li>
+      <li class="left">
+        <a target="_blank" href="https://www.linkedin.com/in/lokdonlokchainofficial/">
+          <span class="fa fa-linkedin color-white"></span>
+        </a>
+      </li>
+    </ul>
+
+    <p class="right color-white">Copyright &copy; 2020 LokDon. All rights reserved.</p>
+    <div class="clear-both"></div>
+    </div>
+    <br>
+  </footer>
+
+  <script type="text/javascript" src="static/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="static/assets/slick-1.8.1/slick/slick.min.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" src="static/js/main.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      if ($(".autoplay").length > 0) {
+        $('.autoplay').slick({
+          dots: true,
+          infinite: true,
+          variableWidth: true,
+          autoplay: true,
+          speed: 3000,
+          autoplaySpeed: 700,
+          adDot: true,
+          responsive: [{
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1
+              }
+            },
+            {
+              breakpoint: 400,
+              settings: {
+                arrows: false,
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+        });
+      }
+    });
+  </script>
+</body>
+
+<!-- Mirrored from lokdon.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 31 Dec 2020 21:05:40 GMT -->
+
+</html>
